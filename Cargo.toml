@@ -1,0 +1,14 @@
+[package]
+name = "MyVectorDB"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.100"
+ndarray = "0.17.2"
+ort = { version =  "2.0.0-rc.11", features = ["load-dynamic", "openvino"] }
+tokenizers = "0.22"
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
