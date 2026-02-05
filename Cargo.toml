@@ -9,6 +9,7 @@ anyhow = "1.0.100"
 ndarray = "0.17.2"
 ort = { version =  "2.0.0-rc.11", features = ["load-dynamic", "openvino"] }
 tokenizers = "0.22"
+memmap2 = "0.9"
 
 [[bin]]
 name = "main"

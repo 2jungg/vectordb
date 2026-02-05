@@ -2,6 +2,7 @@ use ort::session::{ builder::GraphOptimizationLevel, Session };
 use ort::value::TensorRef;
 use ndarray::Array2;
 use tokenizers::Tokenizer;
+use std:: {env, path::PathBuf};
 
 #[derive(Debug)]
 struct TokenOutput {
@@ -15,8 +16,17 @@ pub struct TextProcessor {
     model: Session,
 }
 
+fn _get_dll_path(dll_name: &str) -> PathBuf {
+    let mut exe_path = env::current_exe().expect("Failed to get exe path");
+    exe_path.pop();
+    exe_path.push(dll_name);
+    exe_path
+}
+
 impl TextProcessor {
     pub fn new(tokenizer_path: &str, model_path: &str) -> anyhow::Result<Self> {
+        let dylib_path = _get_dll_path("onnxruntime.dll");
+        ort::init_from(dylib_path)?.commit();
         let tokenizer = Tokenizer::from_file(tokenizer_path).map_err(|e| anyhow::anyhow!(e))?;
 
         let model = Session::builder()?
@@ -32,7 +42,7 @@ impl TextProcessor {
         Ok(Self { tokenizer, model })
     }
 
-    pub fn get_embedding(&mut self, text: &str) -> anyhow::Result<Vec<f32>> {
+    fn get_embedding(&mut self, text: &str) -> anyhow::Result<Vec<f32>> {
         let token_output = self._encode(text)?;
         let token_ids = token_output.ids;
         let attention_mask = token_output.attention;
@@ -70,7 +80,7 @@ impl TextProcessor {
         })
     }
 
-    fn _decode(&self, token_output: &TokenOutput) -> anyhow::Result<String> {
+    pub fn _decode(&self, token_output: &TokenOutput) -> anyhow::Result<String> {
         let decoded_text = self.tokenizer.decode(&token_output.ids, true).map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
         Ok(decoded_text)

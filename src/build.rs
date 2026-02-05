@@ -19,7 +19,7 @@ fn main() {
     let dest_path = target_dir.join("onnxruntime.dll");
     
     if dll_source.exists() {
-        fs::copy(&dll_source, &dest_path).expect("DLL 복사 실패!");
+        fs::copy(&dll_source, &dest_path).expect("DLL COPY FAILED");
         println!("cargo:warning=Copied ONNX Runtime DLL from {:?} to {:?}", dll_source, dest_path);
     } else {
         println!("cargo:warning=ONNX Runtime DLL not found at {:?}", dll_source);
