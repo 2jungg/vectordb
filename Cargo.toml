@@ -7,10 +7,17 @@ build = "src/build.rs"
 [dependencies]
 anyhow = "1.0.100"
 ndarray = "0.17.2"
-ort = { version =  "2.0.0-rc.11", features = ["load-dynamic", "openvino"] }
+ort = { version =  "2.0.0-rc.11", features = ["openvino", "load-dynamic"] }
 tokenizers = "0.22"
 memmap2 = "0.9"
+encoding_rs = "0.8"
+uuid = { version = "1.0", features = ["v4"] }
+parquet = "54.0.0"
 
 [[bin]]
 name = "main"
 path = "src/main.rs"
+
+[[bin]]
+name = "make_db"
+path = "src/bin/make_db.rs"
