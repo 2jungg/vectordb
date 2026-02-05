@@ -2,6 +2,7 @@
 name = "MyVectorDB"
 version = "0.1.0"
 edition = "2024"
+build = "src/build.rs"
 
 [dependencies]
 anyhow = "1.0.100"
