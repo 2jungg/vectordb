@@ -53,6 +53,9 @@ impl Embedder {
     }
 
     pub fn get_embedding(&mut self, text: &str) -> anyhow::Result<Vec<f32>> {
+        if text.trim().is_empty() {
+            return Ok(vec![0.0; 1024]); // 빈 텍스트에 대한 기본값 처리
+        }
         let token_output = self._encode(text)?;
         let token_ids = token_output.ids;
         let attention_mask = token_output.attention;

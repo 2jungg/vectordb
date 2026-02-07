@@ -12,7 +12,11 @@ tokenizers = "0.22"
 memmap2 = "0.9"
 encoding_rs = "0.8"
 uuid = { version = "1.0", features = ["v4"] }
-parquet = "54.0.0"
+parquet = { version = "54.0.0", features = ["arrow"] }
+arrow = "54.0.0"
+indicatif = "0.17"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 
 [[bin]]
 name = "main"
