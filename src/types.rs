@@ -1,5 +1,7 @@
-#[derive(Clone)]
-pub struct VectorChunk {
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Serialize, Deserialize)]
+pub struct TextChunk {
     pub file_id: String,
     pub chunk_id: String,
     pub index: usize,
@@ -7,7 +9,7 @@ pub struct VectorChunk {
     pub start_token: usize,
 }
 
-impl VectorChunk {
+impl TextChunk {
     pub fn new(file_id: String, chunk_id: String, index: usize, text: String, start_token: usize) -> Self {
         Self {
             file_id,
@@ -19,7 +21,7 @@ impl VectorChunk {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct FileMap {
     pub file_name: String,
     pub file_id: String,
@@ -31,13 +33,13 @@ impl FileMap {
     }
 }
 
-pub struct ProcessedChunk {
-    pub chunk_info: VectorChunk,
+pub struct EmbeddedChunk {
+    pub chunk_info: TextChunk,
     pub embedding: Vec<f32>,
 }
 
-impl ProcessedChunk {
-    pub fn new(chunk_info: VectorChunk, embedding: Vec<f32>) -> Self {
+impl EmbeddedChunk {
+    pub fn new(chunk_info: TextChunk, embedding: Vec<f32>) -> Self {
         Self {
             chunk_info,
             embedding,

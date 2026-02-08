@@ -5,7 +5,7 @@ use arrow::array::{Float32Builder, ListBuilder, StringBuilder, UInt64Builder};
 use arrow::datatypes::{DataType, Field, Schema};
 use arrow::record_batch::RecordBatch;
 use parquet::arrow::arrow_writer::ArrowWriter;
-use crate::types::ProcessedChunk;
+use crate::types::EmbeddedChunk;
 
 pub struct ParquetWriter {
     db_path: PathBuf,
@@ -29,7 +29,7 @@ impl ParquetWriter {
         Self { db_path, schema }
     }
 
-    pub fn write_batch(&self, chunks: Vec<ProcessedChunk>) -> anyhow::Result<()> {
+    pub fn write_batch(&self, chunks: Vec<EmbeddedChunk>) -> anyhow::Result<()> {
         if chunks.is_empty() {
             return Ok(());
         }
@@ -50,7 +50,7 @@ impl ParquetWriter {
         Ok(writer)
     }
 
-    pub fn chunks_to_batch(&self, chunks: Vec<ProcessedChunk>) -> anyhow::Result<RecordBatch> {
+    pub fn chunks_to_batch(&self, chunks: Vec<EmbeddedChunk>) -> anyhow::Result<RecordBatch> {
         let mut file_ids = StringBuilder::new();
         let mut chunk_ids = StringBuilder::new();
         let mut indices = UInt64Builder::new();
